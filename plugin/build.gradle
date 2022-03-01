@@ -1,0 +1,65 @@
+plugins {
+    alias libs.plugins.kotlin.jvm
+    id 'java-gradle-plugin'
+    id 'java-library'
+    id 'maven-publish'
+}
+
+group = artifactGroup
+version = artifactVersion
+description = artifactDescription
+
+sourceCompatibility = libs.versions.java.get()
+targetCompatibility = libs.versions.java.get()
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = libs.versions.java.get()
+    }
+}
+
+gradlePlugin {
+    plugins {
+        helloPlugin {
+            id = pluginId
+            description = artifactDescription
+            implementationClass = pluginMainClass
+        }
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = artifactGroup
+            artifactId = artifactName
+            version = artifactVersion
+
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username = nexusUsername
+                password = nexusPassword
+            }
+            url = uri(nexusRepoUrl)
+        }
+    }
+}
+
+tasks.register('install') {
+    dependsOn('publishToMavenLocal')
+}
+
+dependencies {
+    compileOnly gradleApi()
+    compileOnly libs.android.build.tools
+
+    implementation libs.kotlinx.json
+    implementation libs.kotlinx.html
+
+    testImplementation gradleTestKit()
+    testImplementation libs.junit
+}

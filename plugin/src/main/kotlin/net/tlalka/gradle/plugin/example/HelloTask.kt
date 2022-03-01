@@ -1,15 +1,24 @@
 package net.tlalka.gradle.plugin.example
 
+import kotlinx.html.body
+import kotlinx.html.h1
+import kotlinx.html.h4
+import kotlinx.html.html
+import kotlinx.html.stream.appendHTML
 import org.gradle.api.DefaultTask
-import org.gradle.api.file.FileCollection
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
+import java.io.File
 import kotlin.LazyThreadSafetyMode.NONE
-import kotlin.properties.Delegates
 
 open class HelloTask : DefaultTask() {
 
-    private var variantName: String by Delegates.notNull()
-    private var fileCollection: FileCollection by Delegates.notNull()
+    @Input
+    lateinit var variantName: String
+
+    @OutputFile
+    lateinit var outputFile: File
 
     private val config: HelloExtension by lazy(NONE) {
         project.extensions.findByName(HelloExtension.CONFIG_NAME) as HelloExtension
@@ -20,20 +29,16 @@ open class HelloTask : DefaultTask() {
         println("Plugin message: ${config.message}")
         println("Variant: $variantName")
 
-        fileCollection
-            .filter { it != null && it.isFile }
-            .map { it.absolutePath }
-            .forEachIndexed { index, name: String ->
-                println("Lib $index: $name")
-            }
-    }
-
-    internal fun setVariantName(variantName: String) {
-        this.variantName = variantName
-    }
-
-    internal fun setArtifactCollection(fileCollection: FileCollection) {
-        this.fileCollection = fileCollection
+        outputFile.writeText(
+            text = StringBuilder().appendHTML()
+                .html {
+                    body {
+                        h1 { +"Html Report" }
+                        h4 { +"Variant: $variantName" }
+                    }
+                }
+                .toString()
+        )
     }
 
     companion object {

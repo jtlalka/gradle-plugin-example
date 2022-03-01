@@ -1,13 +1,15 @@
 buildscript {
+    apply from: 'gradle/config.gradle'
+
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
 }
 
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
 }

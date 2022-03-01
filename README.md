@@ -8,23 +8,21 @@ Example of Gradle Plugin written in Kotlin
 ./gradlew install
 ```
 
-2. Add maven local to your project build script repository:
+2. Add maven local to your project settings (`settings.gradle`):
 ```groovy
-buildscript {
+pluginManagement {
     repositories {
         mavenLocal()
+        gradlePluginPortal()
     }
 }
 ```
 
-3. Apply plugin:
+3. Add plugin to module build script:
 ```groovy
 plugins {
-    id("hello-gradle-plugin")
+    id("hello-gradle-plugin") varsion "1.0.0"
 }
-
-//optional legacy way:
-apply plugin: 'hello-gradle-plugin'
 ```
 
 4. Run sample plugin for `debug` variant:

@@ -1,0 +1,14 @@
+ext {
+
+    pluginId = 'hello-gradle-plugin'
+    pluginMainClass = 'net.tlalka.gradle.plugin.example.HelloPlugin'
+
+    artifactGroup = 'net.tlalka'
+    artifactName = 'hello-gradle-plugin'
+    artifactVersion = '1.0.0'
+    artifactDescription = 'Gradle Sample Plugin'
+
+    nexusUsername = ''
+    nexusPassword = ''
+    nexusRepoUrl = ''
+}

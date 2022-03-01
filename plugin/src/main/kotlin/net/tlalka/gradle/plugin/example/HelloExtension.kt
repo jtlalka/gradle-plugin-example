@@ -8,7 +8,6 @@ open class HelloExtension {
     var message: String = "Hello Gradle Plugin!"
 
     companion object {
-
         internal const val CONFIG_NAME = "helloConfig"
     }
 }

@@ -1,0 +1,4 @@
+include ':plugin'
+
+// Gradle incubating features
+enableFeaturePreview('VERSION_CATALOGS')
